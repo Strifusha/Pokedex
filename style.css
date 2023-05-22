@@ -1,0 +1,10 @@
+.pokedex-title {
+    background-color: green;
+    text-align: center;   
+}
+
+#pokemons-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 30px;
+}
