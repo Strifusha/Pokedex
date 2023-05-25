@@ -8,13 +8,14 @@
 getPokemons();
 let pokemonsInfo = [];
 
+
 function getPokemons(){
     var url = 'https://pokeapi.co/api/v2/pokemon/?limit=12'
     fetch(url)
         .then(responseStatus)
         .then(json)
         .then(function(data){
-            // console.log(data.results)
+            //console.log(data.results)
             getInfoByUrl(data.results);
         })
         .catch(function(err){
@@ -23,23 +24,48 @@ function getPokemons(){
 }
 
 async function getInfoByUrl(pokemonsUrl) {
+  
 
     for (let i = 0; i < pokemonsUrl.length; i++) {
+    
+        let pokemonsName = pokemonsUrl[i].name;
+        pokemonsInfo.push(pokemonsName);
+
+
+        let result = await fetch(pokemonsUrl[i].url);
+        //pokemonsInfo.push(result.url);
+        //console.log(result);
+
+
+         let request = await Promise.all([result.url])
+         console.log(request)
         
-        // console.log(pokemonsUrl[i].url)
-        const result = await fetch(pokemonsUrl[i].url)
+        //     .then(pic => {
+        //         fetch(pic)
+        //     })
+        // .then(responses => {
+        //     for(let i of responses){
+        //         console.log([i]);
+        //     }
+        // })
+
+       
+       // let pokemonsPic = await fetch(result.front_default);
+            //version_group_details
+        //console.log(pokemonsPic);
+       
+
         // .then(responseStatus)
         // .then(json)
         // .then(function(data){
         //     // console.log(data)
         //     pokemonsInfo.push(data);
         // })
-    
-    }
-
-
+    }      
+    renderPokemons(pokemonsInfo);   
+   
 }
-console.log(pokemonsInfo)
+
 function responseStatus(response){
     if(response.status !== 200){
         return Promise.reject(new Error(response.statusText))
@@ -52,18 +78,17 @@ function json(response){
 }
 
 
-function renderPokemons(renderPokemons){
+function renderPokemons(renderedPokemons){
     const getGridSection = document.getElementById('pokemons-container');
     getGridSection.innerHTML = '';
     let allPokemons = '';
-    console.log(renderPokemons)
-    for(let i = 0; i < renderPokemons.length; i++){
-        // console.log(i)
-        // allPokemons += `<div class='grid-item'>
-        //                     <h4 class='pokemon-name'>${renderPokemons[i].name}</h4>
-        //                     <button class='showInfo'></button>
-        //                 </div>`;
-        // getGridSection.innerHTML = allPokemons; 
+   
+    for(let i = 0; i < renderedPokemons.length; i++){
+        
+          allPokemons += `<div class='grid-item'>
+                              <h4 class='pokemon-name'>${renderedPokemons[i]}</h4>
+                          </div>`;
+         getGridSection.innerHTML = allPokemons; 
     }
-
 }
+
