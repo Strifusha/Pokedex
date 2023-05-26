@@ -23,46 +23,26 @@ function getPokemons(){
         })
 }
 
-async function getInfoByUrl(pokemonsUrl) {
-  
+async function getInfoByUrl(shortPokemonList) {
+  // Получить список ulr 
+  // Отправить промис со всеми ссілками и получить общий ответ
 
-    for (let i = 0; i < pokemonsUrl.length; i++) {
+
+    let pokemonUrs = shortPokemonList.map(item => item.url)
+
+    console.log('pokemonUrs--> ', pokemonUrs);
+
+    const pokemonData = await Promise.all(
+        pokemonUrs.map(async (url) => {
+          const response = await fetch(url);
+          const pokemonDetails = await response.json();
+          return pokemonDetails;
+        })
+      );
+
+        console.log('pokemonData', pokemonData)
     
-        let pokemonsName = pokemonsUrl[i].name;
-        pokemonsInfo.push(pokemonsName);
-
-
-        let result = await fetch(pokemonsUrl[i].url);
-        //pokemonsInfo.push(result.url);
-        //console.log(result);
-
-
-         let request = await Promise.all([result.url])
-         console.log(request)
-        
-        //     .then(pic => {
-        //         fetch(pic)
-        //     })
-        // .then(responses => {
-        //     for(let i of responses){
-        //         console.log([i]);
-        //     }
-        // })
-
-       
-       // let pokemonsPic = await fetch(result.front_default);
-            //version_group_details
-        //console.log(pokemonsPic);
-       
-
-        // .then(responseStatus)
-        // .then(json)
-        // .then(function(data){
-        //     // console.log(data)
-        //     pokemonsInfo.push(data);
-        // })
-    }      
-    renderPokemons(pokemonsInfo);   
+    renderPokemons(pokemonData);   
    
 }
 
@@ -86,7 +66,8 @@ function renderPokemons(renderedPokemons){
     for(let i = 0; i < renderedPokemons.length; i++){
         
           allPokemons += `<div class='grid-item'>
-                              <h4 class='pokemon-name'>${renderedPokemons[i]}</h4>
+                              <img src="${renderedPokemons[i].sprites.front_default}" alt="">
+                              <h4 class='pokemon-name'>${renderedPokemons[i].name}</h4>
                           </div>`;
          getGridSection.innerHTML = allPokemons; 
     }
