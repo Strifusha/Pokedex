@@ -3,11 +3,11 @@
 //создать массив с именами покемонов для forEach
 // вставить имена под фото покемона
 // повесить ивет лисенер на кнопки под фото
-
+let allPokemonsList = [];
 getPokemons();
 
 function getPokemons(){
-    var url = 'https://pokeapi.co/api/v2/pokemon/?limit=12'
+    var url = 'https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0'
     fetch(url)
         .then(responseStatus)
         .then(json)
@@ -33,7 +33,7 @@ async function getInfoByUrl(shortPokemonList) {
           return pokemonDetails;
         })
       );
-    
+      allPokemonsList = pokemonData;
     renderPokemons(pokemonData);   
 }
 
@@ -48,82 +48,56 @@ function json(response){
     return response.json();
 }
 
+const renderPokemonsTypes = types => {
+    let typesHtml = '';
+
+    for(let i = 0; i < types.length; i++){
+        typesHtml += `<span class='pokemonAbility ability_${types[i].type.name}'>${types[i].type.name}</span>`          
+    }
+
+    return typesHtml;
+}
+
 function renderPokemons(renderedPokemons){
     const getGridSection = document.getElementById('pokemons-container');
     getGridSection.innerHTML = '';
     let allPokemons = '';
-    
-    for(let i = 0; i < renderedPokemons.length; i++){
-        //console.log(renderedPokemons[i])
-        // const types = renderedPokemons[i].types.flatMap(obj => Object.values(obj.type.name));
-        // for(let i = 0; i < types.length; i++){
-        //     console.log(types)
-        // }
-        ///////
-        //const types = renderPokemons[i].types.map(obj => Object.values(obj)[0].type.name);
-        //console.log(types)
 
-        
-          allPokemons += `<div class='grid-item'>
+    for(let i = 0; i < renderedPokemons.length; i++){
+          allPokemons += `<div class='grid-item' data-id='${renderedPokemons[i].id}'>
                               <img src="${renderedPokemons[i].sprites.front_default}" class='pokemon-img' alt="Pokemon's pic">
                               <h3 class='pokemon-name'>${renderedPokemons[i].name}</h3>
-                              <span class='pokemonAbility'>${renderedPokemons[i].types[0].type.name}</span>
+                              <div>${renderPokemonsTypes(renderedPokemons[i].types)}</div>
                           </div>`;
          getGridSection.innerHTML = allPokemons;
     }
 
-    //adding colours to abilities
-    const pokemonTypes = document.getElementsByClassName('pokemonAbility');
-
-    for(let i = 0; i < pokemonTypes.length; i++){
-
-        if(pokemonTypes[i].innerHTML == 'grass'){
-            pokemonTypes[i].style.backgroundColor = 'rgb(31, 217, 155)';
-        }
-        if(pokemonTypes[i].innerHTML == 'fire'){
-            pokemonTypes[i].style.backgroundColor = 'rgb(243, 40, 40)';
-        }
-        if(pokemonTypes[i].innerHTML == 'poison'){
-            pokemonTypes[i].style.backgroundColor = 'rgb(126, 34, 238)';
-        }
-        if(pokemonTypes[i].innerHTML == 'electric'){
-            pokemonTypes[i].style.backgroundColor = 'rgb(237, 250, 53)';
-        }
-        if(pokemonTypes[i].innerHTML == 'water'){
-            pokemonTypes[i].style.backgroundColor = 'aqua';
-        }
-        if(pokemonTypes[i].innerHTML == 'bug'){
-            pokemonTypes[i].style.backgroundColor = 'rgb(129, 87, 87)';
-        }
-    }
-    showPokemonDetails()
+    handlerMoreDetaisl();
 }
 
-    
+
+
+function handlerMoreDetaisl() {
+
+    const getGridItems = document.querySelectorAll('.grid-item');
+
+    getGridItems.forEach(item => {
+        item.addEventListener('click', showPokemonDetails )  
+    })    
+}
+
 function showPokemonDetails(){
     //убрать бордер пока не выбран покемон в начале
     //прокручивать табло с прокруткой вниз всех покемонов
-
-    const getGridItems = document.querySelectorAll('.grid-item');
+    const pokemonId = this.getAttribute("data-id");
     const infoArea = document.getElementById('big-pokemon-section');
-    infoArea.innerHTML = '';
-    let moreDatails ='';
 
-    getGridItems.forEach(item => {
-        item.addEventListener('click', () => {
-            
-            //console.log(renderPokemons[item].name);
-            
-            if(item) { 
-                //console.log(item.children);
-                moreDatails = `<img src='${item.children[0].src}' class="pokemon-big-img" alt="Pokemon's pic">
-                <h2 class='pokemon-name'>${item.children[1].outerText}</h2>
-                `
-                infoArea.innerHTML = moreDatails; 
+    const currentPokemonDetails = allPokemonsList.find(pokemon => pokemon.id === +pokemonId)
 
-            }     
-        })  
-    })    
+    console.log(currentPokemonDetails)
+    infoArea.innerHTML = `
+    <h2>${currentPokemonDetails.name}</h2>
+    <img src='${currentPokemonDetails.sprites.front_shiny}' alt="${currentPokemonDetails.name}">`
 }
 
 

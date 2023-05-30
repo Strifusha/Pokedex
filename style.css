@@ -11,7 +11,8 @@
     grid-template-columns: auto auto auto;
     margin: 100px;
     width: 580px;
-    height: 900px;    
+    height: 900px;  
+    background-color: #ccc;  
 }
 
 .grid-item {
@@ -43,6 +44,7 @@
     border-width:2px;
     border-radius: 5px; 
     text-transform: capitalize;
+    background-color: gray;
 }
 
 #loadBtn {
@@ -77,4 +79,14 @@
    
     
 
+}
+
+.ability_grass {
+    background-color: green;
+    color: #ccc;
+}
+
+.ability_water {
+    background-color: blue;
+    color: #fff;
 }
