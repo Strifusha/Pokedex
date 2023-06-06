@@ -1,10 +1,10 @@
 let allPokemonsList = [];
 let counter = createCounter();
-
+const loadBtn = document.getElementById('loadBtn');
 let url = 'https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0';  
 getPokemons();
 function getPokemons(){
-     fetch(url)
+    fetch(url) 
         .then(responseStatus)
         .then(json)
         .then(function(data){
@@ -19,14 +19,19 @@ async function getInfoByUrl(shortPokemonList) {
   // Получить список ulr 
   // Отправить промис со всеми ссілками и получить общий ответ
     let pokemonUrs = shortPokemonList.map(item => item.url)
+    
     const pokemonData = await Promise.all(
+
 
         pokemonUrs.map(async (url) => {
           const response = await fetch(url);
           const pokemonDetails = await response.json();
           return pokemonDetails;  
+          return pokemonDetails;  
         })
       );
+    
+    allPokemonsList = pokemonData;
     
     allPokemonsList = pokemonData;
     renderPokemons(pokemonData);   
