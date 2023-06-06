@@ -1,14 +1,10 @@
-// создать див-контейнер с фото, именем, кнопкой
-// вставить покемонов в ячейки через итерацию массива
-//создать массив с именами покемонов для forEach
-// вставить имена под фото покемона
-// повесить ивет лисенер на кнопки под фото
 let allPokemonsList = [];
-getPokemons();
+let counter = createCounter();
 
+let url = 'https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0';  
+getPokemons();
 function getPokemons(){
-    var url = 'https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0'
-    fetch(url)
+     fetch(url)
         .then(responseStatus)
         .then(json)
         .then(function(data){
@@ -22,18 +18,17 @@ function getPokemons(){
 async function getInfoByUrl(shortPokemonList) {
   // Получить список ulr 
   // Отправить промис со всеми ссілками и получить общий ответ
-
-
     let pokemonUrs = shortPokemonList.map(item => item.url)
-
     const pokemonData = await Promise.all(
+
         pokemonUrs.map(async (url) => {
           const response = await fetch(url);
           const pokemonDetails = await response.json();
-          return pokemonDetails;
+          return pokemonDetails;  
         })
       );
-      allPokemonsList = pokemonData;
+    
+    allPokemonsList = pokemonData;
     renderPokemons(pokemonData);   
 }
 
@@ -75,15 +70,22 @@ function renderPokemons(renderedPokemons){
     handlerMoreDetaisl();
 }
 
-
-
 function handlerMoreDetaisl() {
-
     const getGridItems = document.querySelectorAll('.grid-item');
 
     getGridItems.forEach(item => {
         item.addEventListener('click', showPokemonDetails )  
     })    
+}
+
+const renderPokemonStats = stats => {
+    let statsHtml = '';
+     for(let i = 0; i < stats.length; i++){
+        statsHtml += `<span class='spanInfo'>${stats[i].stat.name}</span>
+                      <span class='spanInfo'>${stats[i].base_stat}</span>`
+     }
+
+     return statsHtml;
 }
 
 function showPokemonDetails(){
@@ -92,12 +94,37 @@ function showPokemonDetails(){
     const pokemonId = this.getAttribute("data-id");
     const infoArea = document.getElementById('big-pokemon-section');
 
-    const currentPokemonDetails = allPokemonsList.find(pokemon => pokemon.id === +pokemonId)
-
-    console.log(currentPokemonDetails)
-    infoArea.innerHTML = `
-    <h2>${currentPokemonDetails.name}</h2>
-    <img src='${currentPokemonDetails.sprites.front_shiny}' alt="${currentPokemonDetails.name}">`
+    const currentPokemonDetails = allPokemonsList.find(pokemon => pokemon.id === +pokemonId);
+   
+    infoArea.innerHTML = `<img src='${currentPokemonDetails.sprites.front_shiny}'  id="pokemon-big-img" alt="${currentPokemonDetails.name}">
+                          <h2>${currentPokemonDetails.name}</h2>
+                          <div id='pokemonFullInfo'>
+                            <span class='spanInfo'>Type</span>
+                            <span class='spanInfo'>${renderPokemonsTypes(currentPokemonDetails.types)}</span>
+                            ${renderPokemonStats(currentPokemonDetails.stats)}
+                          </div>`
 }
 
+function createCounter(){
+    let param = 12;
+    function increment (){
+        param += 12;
+        return param;
+    }
+    return increment;
+} 
+
+function loadMorePokemons(){    
+    const loadBtn = document.getElementById('loadBtn');
+    let loadMoreUrl = new URL(url);
+    let searchParams = loadMoreUrl.searchParams;
+
+    searchParams.set('limit', counter());
+    loadMoreUrl.search = searchParams.toString();
+    url = loadMoreUrl.href;
+
+    getPokemons()
+}
+
+loadBtn.addEventListener('click', loadMorePokemons);
 

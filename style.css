@@ -1,24 +1,50 @@
 
-.pokedex-title {
-    display: block;
-    font-size: 45px;
-    text-align: center;
-    margin: 60px 500px 0 500px;
+#twoSections {
+    display: flex;
 }
 
 #pokemons-container {
     display: grid;
     grid-template-columns: auto auto auto;
     margin: 100px;
-    width: 580px;
-    height: 900px;  
-    background-color: #ccc;  
+    width: 40%;
+    min-width: 550px;
+}
+
+#big-pokemon-section {
+    position: sticky;
+    top: 10%;
+    width: 20%;
+    height: 650px;
+    min-width: 250px;
+    padding: 10px;
+    border: 2px solid;
+  
+    align-items: center;
+    text-align: center;
+    text-transform: capitalize; 
+    margin: 150px; 
+}
+
+
+.pokedex-title {
+    display: block;
+    font-size: 45px;
+    text-align: center;
+    margin: auto
+}
+
+#pokemonFullInfo {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: auto;
+    padding: 5px;
 }
 
 .grid-item {
     margin: center;
     padding: 20px;
-    width: 130px;
+    width: 150px;
     height: 170px;
     border-style: solid;
     border-width: 2px;
@@ -27,7 +53,7 @@
 .pokemon-img {
     display: block;
     margin: auto;
-    width: 60%;   
+    width: 70%;   
 }
 
 .pokemon-name {
@@ -36,15 +62,16 @@
 }
 
 .pokemonAbility {
-    padding: 2px;
+    margin: 5px;
+    padding: 5px;
     text-align: center;
-    display: block;
-    width: 50px;
     border-style:solid;
-    border-width:2px;
+    border-width: 1px;
     border-radius: 5px; 
     text-transform: capitalize;
     background-color: gray;
+    color:#fff;
+    
 }
 
 #loadBtn {
@@ -59,34 +86,45 @@
     text-transform: capitalize;
 }
 
-#big-pokemon-section {
-    padding: 10px;
-    width: 300px;
-    height: 530px;
-    border-style: solid;
-    border-width: 2px;
-    float: right;
-    margin: 100px;
-    
+#pokemon-big-img{ 
+    border-style:solid;
+    width: 50%;
+    margin: auto;    
 }
 
-.pokemon-big-img {
-    margin: auto;
-    display: block;
-    border-style:solid;
-    width: 60%;
-    
-   
-    
-
+.spanInfo {
+    width: 70%;
+    border: 1px solid;
+    padding: 15px;
+    text-align: center;
 }
 
 .ability_grass {
     background-color: green;
-    color: #ccc;
+    color: rgb(255, 254, 254);
 }
 
 .ability_water {
     background-color: blue;
+    color: #fff;
+}
+
+.ability_poison {
+    background-color: rgb(146, 66, 251);
+    color: #fff;
+}
+
+.ability_fire {
+    background-color: rgb(247, 40, 78);
+    color: #fff;
+}
+
+.ability_bug {
+    background-color: rgb(110, 54, 54);
+    color: #fff;
+}
+
+.ability_flying {
+    background-color: rgb(160, 160, 226);
     color: #fff;
 }
