@@ -9,6 +9,17 @@ body {
     text-align: center;
     margin: auto
 }
+
+.reach-panel:hover {
+    background-color:#b5d8fb
+}
+
+.reach-panel {
+    width: 20%;
+    padding: 5px;
+    margin-left: 100px;
+}
+
 #twoSections {
     display: flex;
 }
@@ -25,30 +36,20 @@ body {
     position: sticky;
     top: 10%;
     width: 20%;
-    height: 650px;
+    height: 50%;
     min-width: 250px;
     padding: 10px;
     border: 2px solid;
-  
-    align-items: center;
     text-align: center;
     text-transform: capitalize; 
     margin: 150px; 
 }
-
 
 .pokedex-title {
     display: block;
     font-size: 45px;
     text-align: center;
     margin: auto
-}
-
-#pokemonFullInfo {
-    display: grid;
-    grid-template-columns: auto auto;
-    margin: auto;
-    padding: 5px;
 }
 
 #pokemonFullInfo {
@@ -114,6 +115,7 @@ body {
 
 #pokemon-big-img{ 
     border-style:solid;
+    border-width: 2px;
     width: 50%;
     margin: auto;    
 }

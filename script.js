@@ -1,6 +1,8 @@
 let allPokemonsList = [];
 let counter = createCounter();
 const handleLoadBtn = document.getElementById('loadBtn');
+const searchInput = document.querySelector('.reach-panel');
+
 getPokemons();
 
 function getPokemons(offset = 0){
@@ -116,6 +118,18 @@ function createCounter(){
     return increment;
 } 
 
-
 handleLoadBtn.addEventListener('click', () => getPokemons(counter()));
 
+function findPokemon(){
+    let inputValue = searchInput.value.toLowerCase();
+  
+    let filteredPokemons = allPokemonsList.filter((pokemon) => {
+        if (pokemon.name.match(inputValue)){
+            return pokemon  
+        } 
+    })
+
+    renderPokemons(filteredPokemons);
+}
+
+searchInput.addEventListener('input', findPokemon);
