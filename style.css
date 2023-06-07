@@ -96,8 +96,8 @@ body {
     height: 50px;
     margin: 0 100px;
     border-radius: 10px;
-    background-color:rgb(51, 135, 219);
-    color: white;
+    background-color:#3387db;
+    color: #ffffff;
     font-size: 20px;
     text-transform: capitalize;
 }
@@ -127,7 +127,7 @@ body {
 
 .ability_grass {
     background-color: green;
-    color: rgb(255, 254, 254);
+    color: #fffefe;
 }
 
 .ability_water {

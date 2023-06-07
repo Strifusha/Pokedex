@@ -1,9 +1,11 @@
 let allPokemonsList = [];
 let counter = createCounter();
-const loadBtn = document.getElementById('loadBtn');
-let url = 'https://pokeapi.co/api/v2/pokemon/?limit=12&offset=0';  
+const handleLoadBtn = document.getElementById('loadBtn');
 getPokemons();
-function getPokemons(){
+
+function getPokemons(offset = 0){
+    let url = `https://pokeapi.co/api/v2/pokemon/?limit=12&offset=${offset}`;
+
     fetch(url) 
         .then(responseStatus)
         .then(json)
@@ -22,19 +24,15 @@ async function getInfoByUrl(shortPokemonList) {
     
     const pokemonData = await Promise.all(
 
-
         pokemonUrs.map(async (url) => {
           const response = await fetch(url);
           const pokemonDetails = await response.json();
           return pokemonDetails;  
-          return pokemonDetails;  
         })
       );
     
-    allPokemonsList = pokemonData;
-    
-    allPokemonsList = pokemonData;
-    renderPokemons(pokemonData);   
+    allPokemonsList = [...allPokemonsList, ...pokemonData]; 
+    renderPokemons(allPokemonsList);  
 }
 
 function responseStatus(response){
@@ -111,25 +109,13 @@ function showPokemonDetails(){
 }
 
 function createCounter(){
-    let param = 12;
+    let param = 0;
     function increment (){
-        param += 12;
-        return param;
+        return param += 12;
     }
     return increment;
 } 
 
-function loadMorePokemons(){    
-    const loadBtn = document.getElementById('loadBtn');
-    let loadMoreUrl = new URL(url);
-    let searchParams = loadMoreUrl.searchParams;
 
-    searchParams.set('limit', counter());
-    loadMoreUrl.search = searchParams.toString();
-    url = loadMoreUrl.href;
-
-    getPokemons()
-}
-
-loadBtn.addEventListener('click', loadMorePokemons);
+handleLoadBtn.addEventListener('click', () => getPokemons(counter()));
 
