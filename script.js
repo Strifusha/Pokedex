@@ -121,7 +121,7 @@ function createCounter(){
 handleLoadBtn.addEventListener('click', () => getPokemons(counter()));
 
 function findPokemon(){
-    let inputValue = searchInput.value.toLowerCase();
+    let inputValue = searchInput.value.toLowerCase().trim();
   
     let filteredPokemons = allPokemonsList.filter((pokemon) => {
         if (pokemon.name.match(inputValue)){
