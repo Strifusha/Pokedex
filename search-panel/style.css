@@ -1,0 +1,9 @@
+.reach-panel:hover {
+    background-color:#b5d8fb
+}
+
+.reach-panel {
+    width: 20%;
+    padding: 5px;
+    margin-left: 100px;
+}
