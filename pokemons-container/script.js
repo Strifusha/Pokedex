@@ -1,8 +1,3 @@
-let allPokemonsList = [];
-let counter = createCounter();
-const handleLoadBtn = document.getElementById('loadBtn');
-const searchInput = document.querySelector('.reach-panel');
-
 getPokemons();
 
 function getPokemons(offset = 0){
@@ -75,14 +70,6 @@ function renderPokemons(renderedPokemons){
     handlerMoreDetaisl();
 }
 
-function handlerMoreDetaisl() {
-    const getGridItems = document.querySelectorAll('.grid-item');
-
-    getGridItems.forEach(item => {
-        item.addEventListener('click', showPokemonDetails )  
-    })    
-}
-
 const renderPokemonStats = stats => {
     let statsHtml = '';
      for(let i = 0; i < stats.length; i++){
@@ -92,44 +79,3 @@ const renderPokemonStats = stats => {
 
      return statsHtml;
 }
-
-function showPokemonDetails(){
-    //убрать бордер пока не выбран покемон в начале
-    //прокручивать табло с прокруткой вниз всех покемонов
-    const pokemonId = this.getAttribute("data-id");
-    const infoArea = document.getElementById('big-pokemon-section');
-
-    const currentPokemonDetails = allPokemonsList.find(pokemon => pokemon.id === +pokemonId);
-   
-    infoArea.innerHTML = `<img src='${currentPokemonDetails.sprites.front_shiny}'  id="pokemon-big-img" alt="${currentPokemonDetails.name}">
-                          <h2>${currentPokemonDetails.name}</h2>
-                          <div id='pokemonFullInfo'>
-                            <span class='spanInfo'>Type</span>
-                            <span class='spanInfo'>${renderPokemonsTypes(currentPokemonDetails.types)}</span>
-                            ${renderPokemonStats(currentPokemonDetails.stats)}
-                          </div>`
-}
-
-function createCounter(){
-    let param = 0;
-    function increment (){
-        return param += 12;
-    }
-    return increment;
-} 
-
-handleLoadBtn.addEventListener('click', () => getPokemons(counter()));
-
-function findPokemon(){
-    let inputValue = searchInput.value.toLowerCase().trim();
-  
-    let filteredPokemons = allPokemonsList.filter((pokemon) => {
-        if (pokemon.name.match(inputValue)){
-            return pokemon  
-        } 
-    })
-
-    renderPokemons(filteredPokemons);
-}
-
-searchInput.addEventListener('input', findPokemon);
